@@ -4,3 +4,4 @@ end
 widget = FirstClass.new
 
 p widget.class
+p widget
