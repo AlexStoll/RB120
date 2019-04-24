@@ -1,7 +1,21 @@
-class FirstClass
+# good_dog.rb
+
+module Speak
+  def speak(sound)
+    puts sound
+  end
 end
 
-widget = FirstClass.new
+class GoodDog
+  include Speak
+end
 
-p widget.class
-p widget
+class Person
+  include Speak
+end
+
+franklin = GoodDog.new
+jerry = Person.new
+
+franklin.speak('Aawooff')
+jerry.speak('Hi how aaare ya?')
