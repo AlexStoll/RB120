@@ -14,8 +14,8 @@ class Person
   include Speak
 end
 
-franklin = GoodDog.new
-jerry = Person.new
-
-franklin.speak('Aawooff')
-jerry.speak('Hi how aaare ya?')
+puts "GoodDog ancestors \n\n"
+puts GoodDog.ancestors
+puts ''
+puts "Person ancestors"
+puts Person.ancestors
