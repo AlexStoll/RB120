@@ -1,0 +1,16 @@
+Classes and Objects - Chapter 2
+
+In this chapter we covered...
+
+=> Initializing objects with the new method
+=> How instance variables keep track of an object's state
+=> Learning how attr_* methods generate getters and setters
+=> Using instance methods to perform operations on our objects
+=> Using class methods to perform operations at the class level
+=> Assigning class variables to relate specifically to our class
+=> Assigning constants that never change to perform operations in our classes
+=> How the to_s method is used and that we've been using it implicitly all along.
+=> How and when to use self
+
+Inheritance - Chapter 3
+
