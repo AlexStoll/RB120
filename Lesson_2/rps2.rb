@@ -7,6 +7,8 @@
 #                  'spock' => ['scissors', 'rock'] }
 
 class Move
+  attr_reader :value
+
   VALUES = ['rock', 'paper', 'scissors']
 
   def initialize(value)
@@ -73,7 +75,7 @@ class Human < Player
       puts "Must choose rock, paper, or scissors."
     end
     self.move = Move.new(choice)
-    self.move_history << self.move
+    self.move_history << self.move.value
   end
 end
 
@@ -84,7 +86,7 @@ class Computer < Player
 
   def choose
     self.move = Move.new(Move::VALUES.sample)
-    self.move_history << self.move
+    self.move_history << self.move.value
   end
 end
 
@@ -176,6 +178,7 @@ class RPSGame
       display_score
       break if winning_score || play_again?
     end
+    display_move_history
     display_match_winner
     display_score
     display_goodbye_message
