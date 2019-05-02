@@ -1,11 +1,5 @@
 # rpsls.rb
 
-# matchup_hash = { 'rock' => ['scissors', 'lizard'],
-#                  'paper' => ['rock', 'spock'],
-#                  'scissors' => ['paper', 'lizard'],
-#                  'lizard' => ['spock', 'paper'],
-#                  'spock' => ['scissors', 'rock'] }
-
 class Move
   attr_reader :value
 
@@ -14,30 +8,6 @@ class Move
   def initialize(value)
     @value = value
   end
-
-  # def rock?
-  #   @value == 'rock'
-  # end
-
-  # def paper?
-  #   @value == 'paper'
-  # end
-
-  # def scissors?
-  #   @value == 'scissors'
-  # end
-
-  # def >(other_move)
-  #   (rock? && other_move.scissors?) ||
-  #     (paper? && other_move.rock?) ||
-  #     (scissors? && other_move.paper?)
-  # end
-
-  # def <(other_move)
-  #   (scissors? && other_move.rock?) ||
-  #     (rock? && other_move.paper?) ||
-  #     (paper? && other_move.scissors?)
-  # end
 
   def to_s
     @value
@@ -193,9 +163,7 @@ class RPSGame
       display_score
       break if winning_score? || play_again?
     end
-    display_moves
     display_match_winner
-    display_score
     display_move_history
     display_goodbye_message
   end

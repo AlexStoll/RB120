@@ -75,7 +75,7 @@ class Human < Player
       puts "Must choose rock, paper, or scissors."
     end
     self.move = Move.new(choice)
-    self.move_history << self.move.value
+    move_history << move.value
   end
 end
 
@@ -86,7 +86,7 @@ class Computer < Player
 
   def choose
     self.move = Move.new(Move::VALUES.sample)
-    self.move_history << self.move.value
+    move_history << move.value
   end
 end
 
