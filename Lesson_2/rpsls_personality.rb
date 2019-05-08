@@ -1,3 +1,5 @@
+# rpsls_personality.rb
+
 # rpsls.rb
 
 class Move
@@ -49,11 +51,34 @@ class Human < Player
   end
 end
 
-class Computer < Player
-  def set_name
-    self.name = ['R2D2', 'C3PO', 'Chappie'].sample
-  end
 
+class R2D2 < Player
+  def choose
+    self.move = Move.new('rock')
+    move_history << move.value
+  end
+end
+
+class Chappie < Player
+  CHAPPIE_BIAS = [(['rock'] * 2), 
+                  (['paper'] * 3), 
+                  'scissors', 
+                  (['lizard'] * 2),
+                  (['spock'] * 2)].flatten
+  def choose
+    self.move = Move.new(CHAPPIE_BIAS.sample)
+    move_history << move.value
+  end
+end
+
+class C3PO < Player
+  def choose
+    self.move = Move.new(['rock', 'paper', 'scissors'].sample)
+    move_history << move.value
+  end
+end
+
+class WATSON < Player
   def choose
     self.move = Move.new(Move::VALUES.sample)
     move_history << move.value
@@ -71,7 +96,23 @@ class RPSGame
 
   def initialize
     @human = Human.new
-    @computer = Computer.new
+    @computer = choose_computer
+  end
+
+  def choose_computer
+    answer = ''
+    puts "Would you like to play Watson, C3PO, Chappie, or R2D2?"
+    loop do
+      answer = gets.chomp
+      break if ['Watson', 'C3PO', 'Chappie', 'R2D2'].include?(answer)
+      puts "Must pick a computer"
+    end
+    case answer
+    when 'Watson' then return WATSON.new
+    when 'Chappie' then return Chappie.new
+    when 'C3PO' then return C3PO.new
+    when 'R2D2' then return R2D2.new  
+    end
   end
 
   def display_welcome_message

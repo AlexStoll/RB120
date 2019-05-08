@@ -1,3 +1,4 @@
+# rpsbias.rb
 # rpsls.rb
 
 class Move
@@ -20,7 +21,11 @@ class Player
   def initialize
     set_name
     @score = 0
-    @move_history = []
+    @move_history = {'rock' => 0, 
+                     'paper' => 0, 
+                     'scissors' => 0, 
+                     'lizard' => 0, 
+                     'spock' => 0}
   end
 end
 
@@ -45,7 +50,7 @@ class Human < Player
       puts "Must choose rock, paper, or scissors, lizard or spock."
     end
     self.move = Move.new(choice)
-    move_history << move.value
+    move_history[move.value] += 1
   end
 end
 
@@ -53,13 +58,13 @@ class Computer < Player
   def set_name
     self.name = ['R2D2', 'C3PO', 'Chappie'].sample
   end
-
+#######################################
   def choose
-    self.move = Move.new(Move::VALUES.sample)
-    move_history << move.value
+    self.move = Move.new(Player.move_history.key(Player.move_history.keys.max))
+    move_history[move.value] += 1
   end
 end
-
+#######################################
 class RPSGame
   attr_accessor :human, :computer
 
@@ -75,7 +80,7 @@ class RPSGame
   end
 
   def display_welcome_message
-    puts "Welcome to Rock, Paper, Scissors."
+    puts "Welcome to Rock, Paper, Scissors, Lizard, Spock."
   end
 
   def display_goodbye_message
@@ -91,16 +96,6 @@ class RPSGame
       puts "Must enter a number between 1 and 10."
     end
     @@goal = answer
-  end
-
-  def display_move_history
-    puts "#{human.name}'s move history => #{human.move_history}"
-    puts "#{computer.name}'s move history => #{computer.move_history}"
-  end
-
-  def display_moves
-    puts "#{human.name} chose #{human.move}."
-    puts "#{computer.name} chose #{computer.move}."
   end
 
   def human_win?
@@ -132,6 +127,16 @@ class RPSGame
       puts "Must answer y or n."
     end
     answer != 'y'
+  end
+
+  def display_move_history
+    puts "#{human.name}'s move history: \n=> #{human.move_history}"
+    puts "#{computer.name}'s move history: \n=> #{computer.move_history}"
+  end
+
+  def display_moves
+    puts "#{human.name} chose #{human.move}."
+    puts "#{computer.name} chose #{computer.move}."
   end
 
   def display_score
