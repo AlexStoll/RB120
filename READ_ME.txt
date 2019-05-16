@@ -1,1 +1,0 @@
-Excercises and walkthroughs from the OO book and RB120 course.
