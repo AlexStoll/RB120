@@ -1,5 +1,4 @@
-# figure out find_at_risk square method
-
+# ttt_working.rb
 
 class Board
   attr_reader :squares
@@ -40,7 +39,7 @@ class Board
   # returns winning marker or nil
   def winning_marker
     WINNING_LINES.each do |line| # 'line' is each winning combo
-      squares = @squares.values_at(*line) # returns value for each sqaure in that line
+      squares = @squares.values_at(*line)
       if three_identical_markers?(squares)
         return squares.first.marker
       end
@@ -48,15 +47,54 @@ class Board
     nil
   end
 
-  # def at_risk_square?
-  #   WINNING_LINES.each do |line| # 'line' is each winning combo
-  #     squares = @squares.values_at(*line) # returns value for each sqaure in that line
-  #     if two_human_markers?(squares)
-  #       return squares.first.marker
-  #     end
-  #   end
-  #   nil
-  # end
+  def ai_defense
+    WINNING_LINES.each do |line|
+      squares = @squares.values_at(*line)
+      if two_human_markers?(squares)
+        return find_unmarked_square(line)
+      end
+    end
+    nil
+  end
+
+  def ai_offense
+    WINNING_LINES.each do |line|
+      squares = @squares.values_at(*line)
+      if two_computer_markers?(squares)
+        return find_unmarked_square(line)
+      end
+    end
+    nil
+  end
+
+  def find_unmarked_square(line)
+    line.each do |num|
+      if @squares[num].marker == " "
+        return num
+      end
+    end
+  end
+
+  def two_human_markers?(squares)
+    (squares.select(&:human_marked?).size == 2) &&
+      (squares.select(&:unmarked?).size == 1)
+  end
+
+  def two_computer_markers?(squares)
+    (squares.select(&:computer_marked?).size == 2) &&
+      (squares.select(&:unmarked?).size == 1)
+  end
+
+  def square_5_open?
+    squares[5].unmarked?
+  end
+
+  def ai_strategy
+    return 5 if square_5_open?
+    return ai_offense if ai_offense
+    return ai_defense if ai_defense
+    nil
+  end
 
   def reset
     (1..9).each { |key| @squares[key] = Square.new }
@@ -83,7 +121,7 @@ class Board
   private
 
   def three_identical_markers?(squares)
-    markers = squares.select(&:marked?).collect(&:marker)
+    markers = squares.select(&:marked?).collect(&:marker) ###
     return false if markers.size != 3
     markers.min == markers.max
   end
@@ -91,6 +129,8 @@ end
 
 class Square
   INITIAL_MARKER = ' '
+  HUMAN_MARKER = 'X'
+  COMPUTER_MARKER = 'O'
 
   attr_accessor :marker
 
@@ -108,6 +148,14 @@ class Square
 
   def unmarked?
     marker == INITIAL_MARKER
+  end
+
+  def human_marked?
+    marker == HUMAN_MARKER
+  end
+
+  def computer_marked?
+    marker == COMPUTER_MARKER
   end
 end
 
@@ -155,13 +203,11 @@ class TTTGame
         break if board.someone_won? || board.full?
         clear_and_display_board if human_turn?
       end
-
       display_result
       display_score
       break if winning_score?
       break unless play_again?
-      reset
-      display_play_again_message
+      start_next_round
     end
     display_match_ending
   end
@@ -221,12 +267,13 @@ class TTTGame
     board[square] = human.marker
   end
 
-  # def pick_at_risk_square
-
-  # end
-
   def computer_moves
-    board[board.unmarked_keys.sample] = computer.marker
+    strategic_move = board.ai_strategy
+    if strategic_move # if it's not 'nil'
+      board[strategic_move] = computer.marker
+    else # no strategic move available, random choice
+      board[board.unmarked_keys.sample] = computer.marker
+    end
   end
 
   def display_result
@@ -261,7 +308,11 @@ class TTTGame
   end
 
   def display_match_winner
-    human.score > computer.score ? (puts "You've won the match.") : (puts "You've lost the match.")
+    if human.score > computer.score
+      puts "You've won the match."
+    elsif human.score <= computer.score
+      puts "You've lost the match."
+    end
   end
 
   def clear
@@ -274,7 +325,8 @@ class TTTGame
     clear
   end
 
-  def display_play_again_message
+  def start_next_round
+    reset
     puts "Let's play again."
     puts ''
   end
