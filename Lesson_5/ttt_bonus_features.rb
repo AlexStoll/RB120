@@ -1,4 +1,4 @@
-# ttt_working.rb
+# ttt_bonus_features.rb
 
 class Board
   attr_reader :squares
@@ -331,8 +331,6 @@ class TTTGame
     puts ''
   end
 end
-
-# and then play the game
 
 game = TTTGame.new
 game.play
