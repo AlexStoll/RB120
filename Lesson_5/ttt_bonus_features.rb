@@ -128,13 +128,9 @@ class Board
 end
 
 class Square
-  INITIAL_MARKER = ' '
-  HUMAN_MARKER = 'X'
-  COMPUTER_MARKER = 'O'
-
   attr_accessor :marker
 
-  def initialize(marker=INITIAL_MARKER)
+  def initialize(marker=TTTGame::INITIAL_MARKER)
     @marker = marker
   end
 
@@ -143,19 +139,19 @@ class Square
   end
 
   def marked?
-    marker != INITIAL_MARKER
+    marker != TTTGame::INITIAL_MARKER
   end
 
   def unmarked?
-    marker == INITIAL_MARKER
+    marker == TTTGame::INITIAL_MARKER
   end
 
   def human_marked?
-    marker == HUMAN_MARKER
+    marker == TTTGame::HUMAN_MARKER
   end
 
   def computer_marked?
-    marker == COMPUTER_MARKER
+    marker == TTTGame::COMPUTER_MARKER
   end
 end
 
@@ -170,9 +166,10 @@ class Player
 end
 
 class TTTGame
+  INITIAL_MARKER = " "
   HUMAN_MARKER = "X"
   COMPUTER_MARKER = "O"
-  FIRST_TO_MOVE = HUMAN_MARKER
+  FIRST_TO_MOVE = COMPUTER_MARKER
   WINNING_SCORE = 3
 
   attr_reader :board, :human, :computer
