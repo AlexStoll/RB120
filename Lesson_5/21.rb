@@ -125,7 +125,7 @@ class Player < Participant
   def set_name
     name = ''
     loop do
-      puts "what's your name?"
+      puts "What's your name?"
       name = gets.chomp.capitalize
       break unless name.empty?
       puts "Must enter a value."
