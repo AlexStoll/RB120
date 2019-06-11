@@ -1,19 +1,16 @@
 module Walkable
   def walk
-    "#{self} #{gait} forward"
+    "#{name} #{gait} forward"
   end
 end
 
 class Person
-  include Walkable
   attr_reader :name
+
+  include Walkable
 
   def initialize(name)
     @name = name
-  end
-
-  def to_s
-    name
   end
 
   private
@@ -23,17 +20,34 @@ class Person
   end
 end
 
-class Cat
+class Noble < Person
+  attr_reader :name, :title
+
   include Walkable
+
+  def initialize(name, title)
+    @name, @title = name, title
+  end
+
+  def walk
+    "#{title} #{name} #{gait} forward"
+  end
+
+  def gait
+    "struts"
+  end
+
+end
+
+class Cat
   attr_reader :name
+
+  include Walkable
 
   def initialize(name)
     @name = name
   end
 
-  def to_s
-    name
-  end
   private
 
   def gait
@@ -42,15 +56,12 @@ class Cat
 end
 
 class Cheetah
-  include Walkable
   attr_reader :name
+
+  include Walkable
 
   def initialize(name)
     @name = name
-  end
-
-  def to_s
-    name
   end
 
   private
@@ -60,39 +71,21 @@ class Cheetah
   end
 end
 
-class Noble
-  attr_reader :name, :title
-
-  include Walkable
-
-  def initialize(name, title)
-    @name = name
-    @title = title
-  end
-
-  def to_s
-    "#{title} #{name}"
-  end
-
-  private
-
-  def gait
-    "struts"
-  end
-end
-
 mike = Person.new("Mike")
-p mike.walk
+mike.walk
 # => "Mike strolls forward"
 
 kitty = Cat.new("Kitty")
-p kitty.walk
+kitty.walk
 # => "Kitty saunters forward"
 
 flash = Cheetah.new("Flash")
-p flash.walk
+flash.walk
 # => "Flash runs forward"
 
 byron = Noble.new("Byron", "Lord")
 p byron.walk
 # => "Lord Byron struts forward"
+
+byron.name # "Byron"
+byron.title #"Lord"

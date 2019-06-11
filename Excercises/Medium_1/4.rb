@@ -35,7 +35,7 @@ class CircularQueue
     if @queue.size < @limit
       @queue << item
     else
-      @queue.shift
+      dequeue
       @queue << item
     end
   end
