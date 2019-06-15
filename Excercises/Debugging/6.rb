@@ -1,7 +1,7 @@
+include Comparable
+
 class Length
   attr_reader :value, :unit
-
-  include Comparable
 
   def initialize(value, unit)
     @value = value
@@ -20,6 +20,14 @@ class Length
     convert_to(:nmi, { km: 0.539957, mi: 1.15078, nmi: 1 })
   end
 
+  def <=>(other)
+    case unit
+    when :km  then value <=> other.as_kilometers.value
+    when :mi  then value <=> other.as_miles.value
+    when :nmi then value <=> other.as_nautical_miles.value
+    end
+  end
+
   def ==(other)
     case unit
     when :km  then value == other.as_kilometers.value
@@ -36,12 +44,16 @@ class Length
     end
   end
 
-  def <=>(other)
-    case unit
-    when :km  then value <=> other.as_kilometers.value
-    when :mi  then value <=> other.as_miles.value
-    when :nmi then value <=> other.as_nautical_miles.value
-    end
+  def <=(other)
+    self < other || self == other
+  end
+
+  def >(other)
+    !(self <= other)
+  end
+
+  def >=(other)
+    self > other || self == other
   end
 
   def to_s

@@ -19,12 +19,13 @@ class GeoLocation
     @longitude = longitude
   end
 
-  def ==(other_location)
-    latitude == other_location.latitude && longitude == other_location.longitude
-  end
-
   def to_s
     "(#{latitude}, #{longitude})"
+  end
+
+  def ==(other_location)
+    @latitude == other_location.latitude &&
+      @longitude == other_location.longitude
   end
 end
 

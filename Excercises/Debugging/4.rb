@@ -1,6 +1,3 @@
-# Each employee needs unique serial number
-# Exception is raised currently
-
 class EmployeeManagementSystem
   attr_reader :employer
 

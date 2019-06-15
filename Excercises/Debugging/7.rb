@@ -18,6 +18,7 @@ class BankAccount
 
   def withdraw(amount)
     if amount > 0 && valid_transaction?(balance - amount)
+      self.balance -= amount
       success = (self.balance -= amount)
     else
       success = false
@@ -26,7 +27,7 @@ class BankAccount
     if success
       "$#{amount} withdrawn. Total balance is $#{balance}."
     else
-      "Invalid. Enter positive amount less than or equal to current balance ($#{balance})."
+      "Invalid. Enter positive amount less than or equal to current balance: $#{balance}."
     end
   end
 

@@ -44,4 +44,3 @@ community_library.check_in(little_women)
 community_library.check_in(wrinkle_in_time)
 
 community_library.display_books
-# intend to display info for books currently checked in

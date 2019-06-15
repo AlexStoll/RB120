@@ -1,59 +1,28 @@
-class AuthenticationError < StandardError; end
+class Person
+  attr_accessor :name, :weight, :height
 
-# A mock search engine
-# that returns a random number instead of an actual count.
-class SearchEngine
-  def self.count(query, api_key)
-    unless valid?(api_key)
-      raise AuthenticationError, 'API key is not valid.'
-    end
+  @@total_people = 0
 
-    rand(200_000)
+  def initialize(name, weight, height)
+    set_info(name, weight, height)
+    @@total_people += 1
   end
 
-  private
-
-  def self.valid?(key)
-    key == 'LS1A'
-  end
-end
-
-module DoesItRock
-  API_KEY = 'wrong key'
-
-  class NoScore; end
-
-  class Score
-    def self.for_term(term)
-      positive = SearchEngine.count(%{"#{term} rocks"}, API_KEY).to_f
-      negative = SearchEngine.count(%{"#{term} is not fun"}, API_KEY).to_f
-
-      positive / (positive + negative)
-    rescue ZeroDivisionError
-      NoScore.new
-    end
+  def self.total_people
+    @@total_people
   end
 
-  def self.find_out(term)
-    score = Score.for_term(term)
+  def change_info(name, weight, height)
+    set_info(name, weight, height)
+  end
 
-    case score
-    when NoScore
-      "No idea about #{term}..."
-    when 0...0.5
-      "#{term} is not fun."
-    when 0.5
-      "#{term} seems to be ok..."
-    else
-      "#{term} rocks!"
-    end
-  rescue StandardError => e
-    e.message
+  def set_info(name, weight, height)
+    @name = name
+    @weight = weight
+    @height = height
   end
 end
 
-# Example (your output may differ)
-
-puts DoesItRock.find_out('Sushi')       # Sushi seems to be ok...
-puts DoesItRock.find_out('Rain')        # Rain is not fun.
-puts DoesItRock.find_out('Bug hunting') # Bug hunting rocks!
+bob = Person.new('Bob', 100, "5'11''")
+bob.change_info('b', 1, 5)
+p bob.name, bob.weight, bob.height

@@ -70,9 +70,8 @@ class TelephoneService < CommunicationsProvider
 end
 
 class PostalService < CommunicationsProvider
-  attr_accessor :street_address, :mailbox
-
   include Mailing
+  attr_accessor :street_address, :mailbox
 
   def initialize(name, street_address)
     super(name)
